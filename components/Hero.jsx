@@ -41,7 +41,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative w-full h-screen overflow-hidden bg-charcoal"
+      className="relative w-full min-h-[100dvh] h-screen overflow-hidden bg-charcoal"
     >
       {/* Background Slideshow */}
       <AnimatePresence mode="wait">
@@ -57,7 +57,7 @@ export default function Hero() {
             src={SLIDES[current].src}
             alt={SLIDES[current].alt}
             fill
-            className="object-cover"
+            className="object-cover object-center"
             priority={current === 0}
             sizes="100vw"
           />

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import CategoryFilter from './CategoryFilter';
 import ProductCard from './ProductCard';
 import EnquiryModal from './EnquiryModal';
+import PhotoModal from './PhotoModal';
 import { getProducts } from '@/lib/products';
 
 export default function ProductGrid() {
@@ -12,6 +13,7 @@ export default function ProductGrid() {
   const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [viewingPhoto, setViewingPhoto] = useState(null);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -56,7 +58,7 @@ export default function ProductGrid() {
         {/* Product Grid */}
         {loading ? (
           /* Loading Skeleton */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="animate-pulse">
                 <div className="bg-cream-dark rounded-2xl aspect-[4/5] mb-4" />
@@ -68,7 +70,7 @@ export default function ProductGrid() {
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6"
           >
             <AnimatePresence mode="popLayout">
               {products.map((product, index) => (
@@ -77,6 +79,7 @@ export default function ProductGrid() {
                   product={product}
                   index={index}
                   onEnquire={setSelectedProduct}
+                  onViewPhoto={setViewingPhoto}
                 />
               ))}
             </AnimatePresence>
@@ -98,6 +101,12 @@ export default function ProductGrid() {
       <EnquiryModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
+      />
+
+      {/* Fullsize Photo Viewer Modal */}
+      <PhotoModal
+        product={viewingPhoto}
+        onClose={() => setViewingPhoto(null)}
       />
     </section>
   );

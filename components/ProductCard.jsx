@@ -3,27 +3,35 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-export default function ProductCard({ product, onEnquire, index = 0 }) {
+export default function ProductCard({ product, onEnquire, onViewPhoto, index = 0 }) {
   return (
     <motion.div
-      className="product-card glass-card rounded-2xl overflow-hidden cursor-pointer group"
+      className="product-card glass-card rounded-2xl overflow-hidden group flex flex-col justify-between"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-30px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      {/* Image Container */}
-      <div className="relative aspect-[4/5] overflow-hidden">
+      {/* Image Container - Click to View Photo */}
+      <div
+        onClick={() => onViewPhoto && onViewPhoto(product)}
+        className="relative aspect-[4/5] w-full overflow-hidden bg-cream-dark cursor-pointer"
+        title="Click to view photo full size"
+      >
         <Image
           src={product.image_url}
           alt={product.name}
           fill
-          className="product-image object-cover"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="product-image object-cover object-center transition-transform duration-700 group-hover:scale-105"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
 
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Hover Overlay with View Icon */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <span className="glass-card text-white px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
+            🔍 View Photo
+          </span>
+        </div>
 
         {/* Category Badge */}
         <div className="absolute top-3 left-3">
