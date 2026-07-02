@@ -70,7 +70,7 @@ export default function ProductCard({ product, onEnquire, onViewPhoto, index = 0
             onClick={(e) => e.stopPropagation()}
             className="w-full text-center py-2 px-3 rounded-xl border border-gold/40 bg-gold/10 hover:bg-gold/20 text-charcoal font-medium text-sm transition-all flex items-center justify-center gap-1.5"
           >
-            <span>📞</span> Call Now: 7338412124
+            <span>📞</span> Call Now: 8431764787
           </a>
         </div>
 
