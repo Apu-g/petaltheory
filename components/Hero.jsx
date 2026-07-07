@@ -4,14 +4,22 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const SLIDES = [
-  { src: '/images/flowers/red-tulips.jpg', alt: 'Red Tulip Bouquet' },
-  { src: '/images/flowers/rainbow-tulips.jpg', alt: 'Mixed Rainbow Bouquet' },
-  { src: '/images/flowers/sunflower-bouquet.jpg', alt: 'Sunflower Gold Bouquet' },
-  { src: '/images/flowers/pink-tulips.jpg', alt: 'Pink Tulip Bunch' },
-  { src: '/images/flowers/lavender-lily.jpg', alt: 'Lavender Lily Bouquet' },
-  { src: '/images/flowers/velvet-blooms.jpg', alt: 'Velvet Burgundy Blooms' },
-  { src: '/images/keychains/keychain-collection.jpg', alt: 'Handmade Keychains' },
+// Mobile / phone view slides (images-2 folder)
+const MOBILE_SLIDES = [
+  { src: '/images-2/WhatsApp Image 2026-07-02 at 15.31.18.jpeg', alt: 'Petal Theory Bouquet 1' },
+  { src: '/images-2/WhatsApp Image 2026-07-02 at 15.31.18 (1).jpeg', alt: 'Petal Theory Bouquet 2' },
+  { src: '/images-2/WhatsApp Image 2026-07-02 at 15.31.18 (2).jpeg', alt: 'Petal Theory Bouquet 3' },
+  { src: '/images-2/WhatsApp Image 2026-07-02 at 15.31.37.jpeg', alt: 'Petal Theory Arrangement 1' },
+  { src: '/images-2/WhatsApp Image 2026-07-02 at 15.31.37 (1).jpeg', alt: 'Petal Theory Arrangement 2' },
+];
+
+// Desktop / landscape view slides (web-landscape-images folder)
+const DESKTOP_SLIDES = [
+  { src: '/web-landscape-images/ChatGPT Image Jul 7, 2026, 10_46_17 AM.png', alt: 'Petal Theory Collection 1' },
+  { src: '/web-landscape-images/ChatGPT Image Jul 7, 2026, 10_48_14 AM.png', alt: 'Petal Theory Collection 2' },
+  { src: '/web-landscape-images/ChatGPT Image Jul 7, 2026, 10_50_14 AM.png', alt: 'Petal Theory Collection 3' },
+  { src: '/web-landscape-images/ChatGPT Image Jul 7, 2026, 10_52_36 AM.png', alt: 'Petal Theory Collection 4' },
+  { src: '/web-landscape-images/ChatGPT Image Jul 7, 2026, 10_54_29 AM.png', alt: 'Petal Theory Collection 5' },
 ];
 
 const HEADLINE_WORDS = ['Where', 'Flowers', 'Bloom,', 'Art', 'Lives'];
@@ -28,10 +36,26 @@ const PETALS = [
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile vs desktop on mount and resize
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const SLIDES = isMobile ? MOBILE_SLIDES : DESKTOP_SLIDES;
+
+  // Reset slide index when switching between mobile/desktop
+  useEffect(() => {
+    setCurrent(0);
+  }, [isMobile]);
 
   const nextSlide = useCallback(() => {
     setCurrent((prev) => (prev + 1) % SLIDES.length);
-  }, []);
+  }, [SLIDES.length]);
 
   useEffect(() => {
     const timer = setInterval(nextSlide, 4000);
